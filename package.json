@@ -1,0 +1,32 @@
+{
+  "name": "transfer",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/SushiBanana/transfer#readme",
+  "bugs": {
+    "url": "https://github.com/SushiBanana/transfer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SushiBanana/transfer.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "csv-parse": "^7.0.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^26.6.6",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
+  }
+}
