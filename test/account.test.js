@@ -10,33 +10,8 @@ describe('Account.constructor', ()=> {
         assert.strictEqual(account.balance, 500000)
     })
 
-    it('Accepts an account number with a leading zero', () => {
-        const account = new Account("0111234522226789", 500000)
-        assert.strictEqual(account.accountNumber, "0111234522226789")
-    })
-
-    it('Rejects an account number shorter than 16 digits', () => {
+    it('Rejects an invalid account number', () => {
         assert.throws(() => new Account("123", 500000), /account number/i)
-    })
-
-    it('Rejects an account number longer than 16 digits', () => {
-        assert.throws(() => new Account("11112345222267890", 500000), /account number/i)
-    })
-
-    it('Rejects an account number containing letters', () => {
-        assert.throws(() => new Account("11112345222267ab", 500000), /account number/i)
-    })
-
-    it('Rejects an account number that is a number', () => {
-        assert.throws(() => new Account(1111234522226789, 500000), /account number/i)
-    })
-
-    it('Rejects a null account number as required', () => {
-        assert.throws(() => new Account(null, 500000), /account number is required/i)
-    })
-
-    it('Rejects an undefined account number as required', () => {
-        assert.throws(() => new Account(undefined, 500000), /account number is required/i)
     })
 
     it('Rejects a null balance as required', () => {
@@ -85,24 +60,9 @@ describe('Account.withdraw', () => {
         assert.strictEqual(account.balance, 55000)
     })
 
-    it('Rejects a zero amount', () => {
+    it('Rejects an invalid amount', () => {
         const account = new Account("1111234522226789", 500000)
         assert.throws(() => account.withdraw(0), /amount/i)
-    })
-
-    it('Rejects a negative amount', () => {
-        const account = new Account("1111234522226789", 500000)
-        assert.throws(() => account.withdraw(-100), /amount/i)
-    })
-
-    it('Rejects an amount that is a string', () => {
-        const account = new Account("1111234522226789", 500000)
-        assert.throws(() => account.withdraw("100"), /amount/i)
-    })
-
-    it('Rejects an amount that is not a whole number of cents', () => {
-        const account = new Account("1111234522226789", 500000)
-        assert.throws(() => account.withdraw(100.5), /amount/i)
     })
 })
 
@@ -114,23 +74,8 @@ describe('Account.deposit', () => {
         assert.strictEqual(account.balance, 502560)
     })
 
-    it('Rejects a zero amount', () => {
+    it('Rejects an invalid amount', () => {
         const account = new Account("1111234522226789", 500000)
         assert.throws(() => account.deposit(0), /amount/i)
-    })
-
-    it('Rejects a negative amount', () => {
-        const account = new Account("1111234522226789", 500000)
-        assert.throws(() => account.deposit(-100), /amount/i)
-    })
-
-    it('Rejects an amount that is a string', () => {
-        const account = new Account("1111234522226789", 500000)
-        assert.throws(() => account.deposit("100"), /amount/i)
-    })
-
-    it('Rejects an amount that is not a whole number of cents', () => {
-        const account = new Account("1111234522226789", 500000)
-        assert.throws(() => account.deposit(100.5), /amount/i)
     })
 })

@@ -1,9 +1,11 @@
+import { validateAccountNumber, validateAmount } from "./validation.js";
+
 export class Account {
     #accountNumber;
     #balance;
 
     constructor(accountNumber, balance) {
-        this.#validateAccountNumber(accountNumber);
+        validateAccountNumber(accountNumber);
         this.#validateBalance(balance);
 
         this.#accountNumber = accountNumber;
@@ -11,7 +13,7 @@ export class Account {
     }
 
     withdraw(amount) {
-        this.#validateAmount(amount);
+        validateAmount(amount);
 
         if (amount > this.#balance) {
             throw new Error(
@@ -23,7 +25,7 @@ export class Account {
     }
 
     deposit(amount) {
-        this.#validateAmount(amount);
+        validateAmount(amount);
 
         this.#balance += amount;
     }
@@ -34,16 +36,6 @@ export class Account {
 
     get balance() {
         return this.#balance;
-    }
-
-    #validateAccountNumber(accountNumber) {
-        if (accountNumber == null) {
-            throw new Error("Account number is required");
-        }
-
-        if (typeof accountNumber !== "string" || !/^\d{16}$/.test(accountNumber)) {
-            throw new Error(`Account number must be a 16-digit string, got: ${accountNumber}`);
-        }
     }
 
     #validateBalance(balance) {
@@ -60,9 +52,4 @@ export class Account {
         }
     }
 
-    #validateAmount(amount) {
-        if (!Number.isInteger(amount) || amount <= 0) {
-            throw new Error(`Amount must be a positive whole number of cents, got: ${amount}`);
-        }
-    }
 }
