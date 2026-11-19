@@ -14,14 +14,17 @@ export class Account {
 
   withdraw(amount) {
     validateAmount(amount);
+    this.#hasSufficientFunds(amount);
 
+    this.#balance -= amount;
+  }
+
+  #hasSufficientFunds(amount) {
     if (amount > this.#balance) {
       throw new Error(
         `Insufficient funds in account ${this.#accountNumber}: balance ${this.#balance}, attempted withdrawal ${amount}`,
       );
     }
-
-    this.#balance -= amount;
   }
 
   deposit(amount) {
