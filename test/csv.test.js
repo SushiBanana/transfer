@@ -1,6 +1,11 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { toCents, parseAccounts, parseTransfers } from "../src/csv.js";
+import {
+  toCents,
+  toDollars,
+  parseAccounts,
+  parseTransfers,
+} from "../src/csv.js";
 
 const A = "1111234522226789";
 const B = "1212343433335665";
@@ -37,6 +42,24 @@ describe("toCents", () => {
 
   it("Rejects a negative value", () => {
     assert.throws(() => toCents("-50.00"), /amount/i);
+  });
+});
+
+describe("toDollars", () => {
+  it("Formats dollars and cents", () => {
+    assert.strictEqual(toDollars(482050), "4820.50");
+  });
+
+  it("Keeps two decimals for whole dollars", () => {
+    assert.strictEqual(toDollars(500000), "5000.00");
+  });
+
+  it("Pads amounts under a dollar", () => {
+    assert.strictEqual(toDollars(5), "0.05");
+  });
+
+  it("Formats zero", () => {
+    assert.strictEqual(toDollars(0), "0.00");
   });
 });
 

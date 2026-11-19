@@ -11,6 +11,10 @@ export function toCents(text) {
   return Number(dollars) * 100 + Number(cents.padEnd(2, "0"));
 }
 
+export function toDollars(cents) {
+  return (cents / 100).toFixed(2);
+}
+
 export function parseAccounts(text) {
   return parseRows(text, ["accountNumber", "balance"], toAccount);
 }
