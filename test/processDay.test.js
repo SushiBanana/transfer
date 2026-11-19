@@ -56,6 +56,18 @@ describe("processDay", () => {
     assert.match(result.results[1].reason, /insufficient funds/i);
   });
 
+  it("Returns the starting balances from before the transfers", () => {
+    const result = processDay(`${A},500.00\n${B},0.00`, `${A},${B},100.00`);
+
+    assert.deepStrictEqual(
+      result.startingBalances,
+      new Map([
+        [A, 50000],
+        [B, 0],
+      ]),
+    );
+  });
+
   it("Rejects a malformed balances file", () => {
     assert.throws(
       () => processDay(`${A},500.00\n123,100.00`, `${A},${B},100.00`),

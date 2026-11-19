@@ -6,7 +6,11 @@ export function processDay(accountsText, transfersText) {
   const transfers = parseTransfers(transfersText);
 
   const bank = new Bank(accounts);
+  const startingBalances = new Map(
+    accounts.map((account)=> [account.accountNumber, account.balance])
+  )
+
   const results = bank.applyTransfers(transfers);
 
-  return { accounts, results };
+  return { startingBalances, accounts, results };
 }
