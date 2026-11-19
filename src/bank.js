@@ -36,19 +36,21 @@ export class Bank {
   }
 
   applyTransfers(transfers) {
-    const failures = [];
+    const results = [];
 
     for (const transfer of transfers) {
       try {
         this.applyTransfer(transfer);
+        results.push({ transfer, succeeded: true });
       } catch (error) {
-        failures.push({
+        results.push({
           transfer,
+          succeeded: false,
           reason: error.message,
         });
       }
     }
 
-    return failures;
+    return results;
   }
 }

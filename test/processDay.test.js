@@ -33,7 +33,10 @@ describe("processDay", () => {
       "1212343433335665": 172560,
       "3212343433335755": 4867950,
     });
-    assert.deepStrictEqual(result.failures, []);
+    assert.deepStrictEqual(
+      result.results.map(({ succeeded }) => succeeded),
+      [true, true, true, true],
+    );
   });
 
   it("Reports a failed transfer and still applies the rest", () => {
@@ -46,8 +49,11 @@ describe("processDay", () => {
       [A]: 20000,
       [B]: 30000,
     });
-    assert.strictEqual(result.failures.length, 1);
-    assert.match(result.failures[0].reason, /insufficient funds/i);
+    assert.deepStrictEqual(
+      result.results.map(({ succeeded }) => succeeded),
+      [true, false, true],
+    );
+    assert.match(result.results[1].reason, /insufficient funds/i);
   });
 
   it("Rejects a malformed balances file", () => {

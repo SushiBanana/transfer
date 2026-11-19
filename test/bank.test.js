@@ -105,22 +105,42 @@ describe("Bank.applyTransfers", () => {
     assert.strictEqual(b.balance, 30000);
   });
 
-  it("Records the failed transfer with its reason", () => {
+  it("Records a successful transfer", () => {
+    const bank = new Bank([new Account(A, 500000), new Account(B, 0)]);
+    const transfer = new Transfer(A, B, 50000);
+
+    const results = bank.applyTransfers([transfer]);
+
+    assert.deepStrictEqual(results, [{ transfer, succeeded: true }]);
+  });
+
+  it("Records a failed transfer with its reason", () => {
     const bank = new Bank([new Account(A, 50000), new Account(B, 0)]);
     const tooBig = new Transfer(A, B, 60000);
 
-    const failures = bank.applyTransfers([tooBig]);
+    const results = bank.applyTransfers([tooBig]);
 
-    assert.strictEqual(failures.length, 1);
-    assert.strictEqual(failures[0].transfer, tooBig);
-    assert.match(failures[0].reason, /insufficient funds/i);
+    assert.strictEqual(results.length, 1);
+    assert.strictEqual(results[0].transfer, tooBig);
+    assert.strictEqual(results[0].succeeded, false);
+    assert.match(results[0].reason, /insufficient funds/i);
   });
 
-  it("Returns no failures when all transfers succeed", () => {
-    const bank = new Bank([new Account(A, 500000), new Account(B, 0)]);
+  it("Returns one result per transfer in file order", () => {
+    const bank = new Bank([new Account(A, 50000), new Account(B, 0)]);
+    const first = new Transfer(A, B, 10000);
+    const second = new Transfer(B, A, 999999);
+    const third = new Transfer(A, B, 20000);
 
-    const failures = bank.applyTransfers([new Transfer(A, B, 50000)]);
+    const results = bank.applyTransfers([first, second, third]);
 
-    assert.deepStrictEqual(failures, []);
+    assert.deepStrictEqual(
+      results.map((result) => result.transfer),
+      [first, second, third],
+    );
+    assert.deepStrictEqual(
+      results.map((result) => result.succeeded),
+      [true, false, true],
+    );
   });
 });
