@@ -1,15 +1,22 @@
-import { parse } from "csv-parse/sync";
 import { readFileSync } from "node:fs";
+import { formatReport } from "./formatReport.js";
+import { processDay } from "./processDay.js";
 
-const text = readFileSync(
-  "MableBackEndCodeTest/mable_account_balances.csv",
-  "utf-8",
+const balancesPath = new URL(
+  "../MableBackEndCodeTest/mable_account_balances.csv",
+  import.meta.url,
+);
+const transfersPath = new URL(
+  "../MableBackEndCodeTest/mable_transactions.csv",
+  import.meta.url,
 );
 
-const rows = parse(text, {
-  columns: ["Account", "Balance"],
-  skip_empty_lines: true,
-  trim: true,
-});
+try {
+  const balancesText = readFileSync(balancesPath, "utf-8");
+  const transfersText = readFileSync(transfersPath, "utf-8");
 
-console.log(rows);
+  console.log(formatReport(processDay(balancesText, transfersText)));
+} catch (error) {
+  console.error(`Could not process transfers: ${error.message}`);
+  process.exitCode = 1;
+}
