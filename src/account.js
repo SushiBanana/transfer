@@ -2,6 +2,7 @@ import { validateAccountNumber, validateAmount } from "./validation.js";
 
 export class Account {
   #accountNumber;
+  // Whole cents, so money maths never hits floating-point rounding errors
   #balance;
 
   constructor(accountNumber, balance) {

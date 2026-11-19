@@ -15,6 +15,7 @@ export function validateAccountNumber(accountNumber) {
     throw new Error("Account number is required");
   }
 
+  // Must be a string: numbers lose leading zeros, and .test() would accept a number.
   if (typeof accountNumber !== "string" || !/^\d{16}$/.test(accountNumber)) {
     throw new Error(
       `Account number must be a 16-digit string, got: ${accountNumber}`,

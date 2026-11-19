@@ -27,6 +27,7 @@ export class Bank {
     return account;
   }
 
+  // Every check that can fail runs before any balance changes, so a rejected transfer leaves both accounts untouched
   applyTransfer(transfer) {
     const fromAcc = this.#findAccount(transfer.fromAccountNumber);
     const toAcc = this.#findAccount(transfer.toAccountNumber);
@@ -35,6 +36,7 @@ export class Bank {
     toAcc.deposit(transfer.amount);
   }
 
+  // A failed transfer is recorded and skipped; the rest of the day still runs
   applyTransfers(transfers) {
     const results = [];
 

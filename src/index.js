@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { formatReport } from "./formatReport.js";
 import { processDay } from "./processDay.js";
 
+// Resolved relative to this file, so it works from any working directory.
 const balancesPath = new URL(
   "../MableBackEndCodeTest/mable_account_balances.csv",
   import.meta.url,

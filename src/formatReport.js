@@ -7,6 +7,7 @@ export function formatReport({ startingBalances, accounts, results }) {
   const successes = results.filter((result) => result.succeeded);
   const failures = results.filter((result) => !result.succeeded);
 
+  // Both balance sections take [accountNumber, cents] pairs, so the Map and the accounts are both converted into that shape
   return [
     formatBalances("Starting balances", [...startingBalances]),
     formatSuccesses(successes),
