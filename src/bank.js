@@ -29,6 +29,10 @@ export class Bank {
 
   // Every check that can fail runs before any balance changes, so a rejected transfer leaves both accounts untouched
   applyTransfer(transfer) {
+    if (transfer.fromAccountNumber === transfer.toAccountNumber) {
+      throw new Error("Cannot transfer to the same account");
+    }
+
     const fromAcc = this.#findAccount(transfer.fromAccountNumber);
     const toAcc = this.#findAccount(transfer.toAccountNumber);
 

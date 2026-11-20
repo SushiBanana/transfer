@@ -75,6 +75,23 @@ describe("Bank.applyTransfer", () => {
 
     assert.strictEqual(a.balance, 500000);
   });
+
+  it("Rejects a transfer to the same account", () => {
+    const bank = new Bank([new Account(A, 500000)]);
+    const transfer = new Transfer(A, A, 50000);
+
+    assert.throws(() => bank.applyTransfer(transfer), /same account/i);
+  });
+
+  it("Leaves the balance unchanged after a same-account transfer", () => {
+    const a = new Account(A, 500000);
+    const bank = new Bank([a]);
+    const transfer = new Transfer(A, A, 50000);
+
+    assert.throws(() => bank.applyTransfer(transfer));
+
+    assert.strictEqual(a.balance, 500000);
+  });
 });
 
 describe("Bank.applyTransfers", () => {

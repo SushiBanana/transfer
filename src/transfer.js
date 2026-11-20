@@ -10,10 +10,6 @@ export class Transfer {
     validateAccountNumber(toAccountNumber);
     validateAmount(amount);
 
-    if (fromAccountNumber === toAccountNumber) {
-      throw new Error("Cannot transfer to the same account");
-    }
-
     this.#fromAccountNumber = fromAccountNumber;
     this.#toAccountNumber = toAccountNumber;
     this.#amount = amount;

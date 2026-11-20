@@ -14,13 +14,6 @@ describe("Transfer.constructor", () => {
     assert.strictEqual(transfer.amount, 50000);
   });
 
-  it("Rejects a transfer to the same account", () => {
-    assert.throws(
-      () => new Transfer("1111234522226789", "1111234522226789", 50000),
-      /same account/i,
-    );
-  });
-
   it("Rejects an invalid from account number", () => {
     assert.throws(
       () => new Transfer("123", "1212343433335665", 50000),
